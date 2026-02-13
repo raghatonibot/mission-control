@@ -45,7 +45,7 @@
             -webkit-font-smoothing: antialiased;
         }
         
-        /* Header Mobile */
+        /* Header */
         .header {
             background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
             padding: 1rem;
@@ -74,6 +74,34 @@
         
         .logo-icon {
             font-size: 1.75rem;
+        }
+        
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .status-badge.online {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--cor-sucesso);
+        }
+        
+        .status-badge.offline {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--cor-erro);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s infinite;
         }
         
         /* Menu Mobile */
@@ -138,7 +166,7 @@
             background: var(--cor-primaria);
         }
         
-        /* Container Mobile */
+        /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -146,7 +174,7 @@
             padding-bottom: calc(100px + var(--safe-area-bottom));
         }
         
-        /* Cards de Estatísticas Mobile */
+        /* Stats Grid */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -183,45 +211,13 @@
         .stat-card.info { border-left: 3px solid var(--cor-info); }
         .stat-card.alerta { border-left: 3px solid var(--cor-alerta); }
         .stat-card.erro { border-left: 3px solid var(--cor-erro); }
-            margin-bottom: 2rem;
-        }
-        
-        .stat-card {
-            background: var(--cor-fundo-card);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            border: 1px solid var(--cor-borda);
-            transition: transform 0.2s;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-2px);
-        }
-        
-        .stat-label {
-            color: var(--cor-texto-secundario);
-            font-size: 0.875rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-        }
-        
-        .stat-valor {
-            font-size: 2rem;
-            font-weight: bold;
-            margin-top: 0.5rem;
-        }
-        
-        .stat-card.sucesso { border-left: 4px solid var(--cor-sucesso); }
-        .stat-card.info { border-left: 4px solid var(--cor-info); }
-        .stat-card.alerta { border-left: 4px solid var(--cor-alerta); }
-        .stat-card.erro { border-left: 4px solid var(--cor-erro); }
         
         /* Seções */
         .section {
             background: var(--cor-fundo-card);
-            border-radius: 0.75rem;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
             border: 1px solid var(--cor-borda);
         }
         
@@ -230,10 +226,12 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
         
         .section-titulo {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
         }
         
@@ -242,19 +240,26 @@
             background: var(--cor-primaria);
             color: white;
             border: none;
-            padding: 0.5rem 1rem;
+            padding: 0.75rem 1.25rem;
             border-radius: 0.5rem;
             cursor: pointer;
-            font-size: 0.875rem;
+            font-size: 1rem;
             transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            min-height: 44px;
+            min-width: 44px;
         }
         
         .btn:hover {
             background: var(--cor-secundaria);
             transform: translateY(-1px);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
         
         .btn-sucesso { background: var(--cor-sucesso); }
@@ -265,14 +270,24 @@
             border: 1px solid var(--cor-borda);
         }
         
+        .btn-sm {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+        }
+        
         /* Tabelas */
+        .tabela-container {
+            overflow-x: auto;
+        }
+        
         .tabela {
             width: 100%;
             border-collapse: collapse;
+            font-size: 0.875rem;
         }
         
         .tabela th, .tabela td {
-            padding: 0.75rem;
+            padding: 0.75rem 0.5rem;
             text-align: left;
             border-bottom: 1px solid var(--cor-borda);
         }
@@ -289,7 +304,7 @@
             background: rgba(255,255,255,0.02);
         }
         
-        /* Badges de Status */
+        /* Badges */
         .badge {
             display: inline-flex;
             align-items: center;
@@ -301,10 +316,26 @@
         }
         
         .badge.pendente { background: rgba(245, 158, 11, 0.2); color: var(--cor-alerta); }
-        .badge.em-andamento { background: rgba(59, 130, 246, 0.2); color: var(--cor-info); }
+        .badge.em_andamento { background: rgba(59, 130, 246, 0.2); color: var(--cor-info); }
         .badge.concluido { background: rgba(34, 197, 94, 0.2); color: var(--cor-sucesso); }
         .badge.falhou { background: rgba(239, 68, 68, 0.2); color: var(--cor-erro); }
         .badge.cancelado { background: rgba(148, 163, 184, 0.2); color: var(--cor-texto-secundario); }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: var(--cor-fundo);
+            border-radius: 0.5rem;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
+            transition: width 0.3s ease;
+            border-radius: 0.5rem;
+        }
         
         /* Grid de Agentes */
         .agentes-grid {
@@ -358,37 +389,13 @@
             margin-top: 0.5rem;
         }
         
-        .agente-ferramentas {
+        .agente-acoes {
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.25rem;
+            gap: 0.5rem;
             margin-top: 0.75rem;
         }
         
-        .ferramenta-tag {
-            background: rgba(99, 102, 241, 0.2);
-            color: var(--cor-primaria);
-            padding: 0.125rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.625rem;
-        }
-        
-        /* Progress Bar */
-        .progress-container {
-            background: var(--cor-fundo);
-            border-radius: 0.5rem;
-            height: 8px;
-            overflow: hidden;
-            margin-top: 0.5rem;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
-            transition: width 0.3s ease;
-        }
-        
-        /* Workflow Timeline */
+        /* Timeline */
         .timeline {
             position: relative;
             padding-left: 2rem;
@@ -422,7 +429,7 @@
         }
         
         .timeline-item.concluido::before { background: var(--cor-sucesso); }
-        .timeline-item.em-andamento::before { background: var(--cor-info); }
+        .timeline-item.em_andamento::before { background: var(--cor-info); }
         .timeline-item.falhou::before { background: var(--cor-erro); }
         .timeline-item.pendente::before { background: var(--cor-alerta); }
         
@@ -431,7 +438,7 @@
             background: var(--cor-fundo);
             border-radius: 0.5rem;
             padding: 1rem;
-            max-height: 300px;
+            max-height: 400px;
             overflow-y: auto;
             font-family: 'Consolas', monospace;
             font-size: 0.875rem;
@@ -468,6 +475,7 @@
             z-index: 1000;
             align-items: center;
             justify-content: center;
+            padding: 1rem;
         }
         
         .modal-overlay.ativo {
@@ -476,11 +484,11 @@
         
         .modal {
             background: var(--cor-fundo-card);
-            border-radius: 0.75rem;
-            padding: 2rem;
+            border-radius: 1rem;
+            padding: 1.5rem;
             max-width: 600px;
-            width: 90%;
-            max-height: 80vh;
+            width: 100%;
+            max-height: 90vh;
             overflow-y: auto;
         }
         
@@ -520,9 +528,10 @@
             background: var(--cor-fundo);
             border: 1px solid var(--cor-borda);
             color: var(--cor-texto);
-            padding: 0.5rem 0.75rem;
+            padding: 0.875rem;
             border-radius: 0.5rem;
-            font-size: 0.875rem;
+            font-size: 1rem;
+            font-family: inherit;
         }
         
         .form-textarea {
@@ -535,33 +544,6 @@
             border-color: var(--cor-primaria);
         }
         
-        /* Animações */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-        
-        .pulso {
-            animation: pulse 2s infinite;
-        }
-        
-        /* Responsivo */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .stats-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        
         /* Tabs */
         .tabs {
             display: flex;
@@ -569,6 +551,7 @@
             margin-bottom: 1rem;
             border-bottom: 1px solid var(--cor-borda);
             padding-bottom: 0.5rem;
+            overflow-x: auto;
         }
         
         .tab {
@@ -580,6 +563,7 @@
             font-size: 0.875rem;
             border-radius: 0.5rem;
             transition: all 0.2s;
+            white-space: nowrap;
         }
         
         .tab:hover {
@@ -599,6 +583,7 @@
         .tab-content.ativo {
             display: block;
         }
+        
         /* Navegação Inferior Mobile */
         .nav-inferior {
             display: flex;
@@ -610,7 +595,7 @@
             border-top: 1px solid var(--cor-borda);
             padding: 0.5rem;
             padding-bottom: calc(0.5rem + var(--safe-area-bottom));
-            z-index: 1000;
+            z-index: 100;
             justify-content: space-around;
         }
         
@@ -636,7 +621,62 @@
             font-size: 1.25rem;
         }
         
-        /* Media Query Desktop */
+        /* Animações */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulso {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        /* Alertas */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .alert-info {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid var(--cor-info);
+            color: var(--cor-info);
+        }
+        
+        .alert-error {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--cor-erro);
+            color: var(--cor-erro);
+        }
+        
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--cor-texto-secundario);
+        }
+        
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        /* Responsivo */
         @media (min-width: 768px) {
             .menu-btn {
                 display: none;
@@ -676,50 +716,10 @@
             .header {
                 padding: 1rem 2rem;
             }
-        }
-        
-        /* Ajustes Mobile Adicionais */
-        .section {
-            background: var(--cor-fundo-card);
-            border-radius: 1rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border: 1px solid var(--cor-borda);
-        }
-        
-        .section-titulo {
-            font-size: 1.1rem;
-            font-weight: 600;
-        }
-        
-        .btn {
-            padding: 0.75rem 1.25rem;
-            font-size: 1rem;
-            min-height: 44px;
-            min-width: 44px;
-        }
-        
-        .tabela {
-            font-size: 0.875rem;
-        }
-        
-        .tabela th, .tabela td {
-            padding: 0.75rem 0.5rem;
-        }
-        
-        .agente-card {
-            padding: 1rem;
-        }
-        
-        .modal {
-            margin: 1rem;
-            max-height: 90vh;
-            border-radius: 1rem;
-        }
-        
-        .form-input, .form-select, .form-textarea {
-            padding: 0.875rem;
-            font-size: 1rem;
+            
+            .section {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -731,36 +731,44 @@
                 <span class="logo-icon">🚀</span>
                 <span>Mission Control</span>
             </div>
+            <div id="connection-status" class="status-badge offline">
+                <span class="status-dot"></span>
+                <span>Offline</span>
+            </div>
             <button class="menu-btn" onclick="toggleMenu()">☰</button>
             <nav class="nav" id="nav-menu">
                 <button class="nav-fechar" onclick="toggleMenu()">×</button>
                 <button class="nav-btn ativo" onclick="mostrarSecao('dashboard')">📊 Dashboard</button>
                 <button class="nav-btn" onclick="mostrarSecao('workflows')">🔄 Workflows</button>
                 <button class="nav-btn" onclick="mostrarSecao('agentes')">🤖 Agentes</button>
-                <button class="nav-btn" onclick="mostrarSecao('equipes')">👥 Equipes</button>
                 <button class="nav-btn" onclick="mostrarSecao('logs')">📝 Logs</button>
             </nav>
         </div>
     </header>
 
     <div class="container">
+        <!-- Alerta de Conexão -->
+        <div id="alert-conexao" class="alert alert-error" style="display: none;">
+            ⚠️ Não foi possível conectar à API. Verifique se o backend está rodando.
+        </div>
+
         <!-- Estatísticas -->
         <div class="stats-grid">
             <div class="stat-card info">
                 <div class="stat-label">Workflows Ativos</div>
-                <div class="stat-valor" id="stat-workflows-ativos">0</div>
+                <div class="stat-valor" id="stat-workflows-ativos">-</div>
             </div>
             <div class="stat-card sucesso">
-                <div class="stat-label">Concluídos Hoje</div>
-                <div class="stat-valor" id="stat-concluidos">0</div>
+                <div class="stat-label">Concluídos</div>
+                <div class="stat-valor" id="stat-concluidos">-</div>
             </div>
             <div class="stat-card alerta">
-                <div class="stat-label">Agentes Online</div>
-                <div class="stat-valor" id="stat-agentes">0</div>
+                <div class="stat-label">Subagentes</div>
+                <div class="stat-valor" id="stat-agentes">-</div>
             </div>
             <div class="stat-card erro">
                 <div class="stat-label">Falhas</div>
-                <div class="stat-valor" id="stat-falhas">0</div>
+                <div class="stat-valor" id="stat-falhas">-</div>
             </div>
         </div>
 
@@ -771,20 +779,24 @@
                     <h2 class="section-titulo">🔄 Workflows em Execução</h2>
                     <button class="btn" onclick="abrirModalWorkflow()">+ Novo Workflow</button>
                 </div>
-                <table class="tabela">
-                    <thead>
-                        <tr>
-                            <th>Nome</th>
-                            <th>Progresso</th>
-                            <th>Status</th>
-                            <th>Duração</th>
-                            <th>Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabela-workflows">
-                        <!-- Preenchido via JS -->
-                    </tbody>
-                </table>
+                <div class="tabela-container">
+                    <table class="tabela">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Progresso</th>
+                                <th>Status</th>
+                                <th>Duração</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-workflows">
+                            <tr>
+                                <td colspan="5" class="empty-state">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             <div class="section">
@@ -803,14 +815,10 @@
                 <button class="tab ativo" onclick="mostrarTab('todos-workflows')">Todos</button>
                 <button class="tab" onclick="mostrarTab('em-andamento')">Em Andamento</button>
                 <button class="tab" onclick="mostrarTab('concluidos')">Concluídos</button>
-                <button class="tab" onclick="mostrarTab('templates')">Templates</button>
             </div>
             
             <div id="tab-todos-workflows" class="tab-content ativo">
                 <div class="section">
-                    <div class="section-header">
-                        <h2 class="section-titulo">Todos os Workflows</h2>
-                    </div>
                     <div id="lista-todos-workflows">
                         <!-- Preenchido via JS -->
                     </div>
@@ -822,23 +830,10 @@
         <div id="secao-agentes" class="secao" style="display: none;">
             <div class="section">
                 <div class="section-header">
-                    <h2 class="section-titulo">🤖 Agentes Disponíveis</h2>
+                    <h2 class="section-titulo">🤖 Subagentes Ativos</h2>
                     <button class="btn" onclick="abrirModalAgente()">+ Novo Agente</button>
                 </div>
                 <div class="agentes-grid" id="grid-agentes">
-                    <!-- Preenchido via JS -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Seção Equipes -->
-        <div id="secao-equipes" class="secao" style="display: none;">
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-titulo">👥 Equipes</h2>
-                    <button class="btn" onclick="abrirModalEquipe()">+ Nova Equipe</button>
-                </div>
-                <div id="lista-equipes">
                     <!-- Preenchido via JS -->
                 </div>
             </div>
@@ -883,11 +878,11 @@
         <div class="modal">
             <div class="modal-header">
                 <h3 class="modal-titulo">🔄 Criar Novo Workflow</h3>
-                <button class="modal-fechar" onclick="fecharModal('modal-workflow')">&times;</button>
+                <button class="modal-fechar" onclick="fecharModal('modal-workflow')">×</button>
             </div>
             <form id="form-workflow">
                 <div class="form-group">
-                    <label class="form-label">Nome do Workflow</label>
+                    <label class="form-label">Nome do Workflow *</label>
                     <input type="text" class="form-input" id="wf-nome" placeholder="Ex: Deploy da Aplicação" required>
                 </div>
                 <div class="form-group">
@@ -895,21 +890,22 @@
                     <textarea class="form-textarea" id="wf-descricao" placeholder="Descreva o objetivo do workflow..."></textarea>
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Equipe Responsável</label>
-                    <select class="form-select" id="wf-equipe">
-                        <option value="">Selecione uma equipe...</option>
-                    </select>
-                </div>
-                <div class="form-group">
                     <label class="form-label">Template</label>
-                    <select class="form-select" id="wf-template" onchange="carregarTemplate()">
+                    <select class="form-select" id="wf-template">
                         <option value="">Workflow em branco</option>
                         <option value="ci-cd">CI/CD - Revisão → Teste → Deploy</option>
-                        <option value="analise">Análise de Código</option>
+                        <option value="analise-codigo">Análise de Código</option>
                         <option value="suporte">Triagem de Suporte</option>
                     </select>
                 </div>
-                <button type="submit" class="btn">Criar Workflow</button>
+                <div class="form-group">
+                    <label class="form-label">
+                        <input type="checkbox" id="wf-autostart"> Iniciar automaticamente
+                    </label>
+                </div>
+                <button type="submit" class="btn" id="btn-criar-workflow">
+                    Criar Workflow
+                </button>
             </form>
         </div>
     </div>
@@ -918,132 +914,443 @@
     <div class="modal-overlay" id="modal-agente">
         <div class="modal">
             <div class="modal-header">
-                <h3 class="modal-titulo">🤖 Criar Novo Agente</h3>
-                <button class="modal-fechar" onclick="fecharModal('modal-agente')">&times;</button>
+                <h3 class="modal-titulo">🤖 Criar Novo Subagente</h3>
+                <button class="modal-fechar" onclick="fecharModal('modal-agente')">×</button>
             </div>
             <form id="form-agente">
                 <div class="form-group">
-                    <label class="form-label">Nome do Agente</label>
-                    <input type="text" class="form-input" id="agente-nome" placeholder="Ex: Revisor de Código" required>
+                    <label class="form-label">Label (opcional)</label>
+                    <input type="text" class="form-input" id="agente-label" placeholder="Ex: Revisor de Código">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Tipo</label>
-                    <select class="form-select" id="agente-tipo">
-                        <option value="revisor">Revisor</option>
-                        <option value="testador">Testador</option>
-                        <option value="desenvolvedor">Desenvolvedor</option>
-                        <option value="deployer">Deployer</option>
-                        <option value="analista">Analista</option>
-                        <option value="gerente">Gerente</option>
-                        <option value="especialista">Especialista</option>
-                        <option value="assistente">Assistente</option>
-                    </select>
+                    <label class="form-label">Tarefa *</label>
+                    <textarea class="form-textarea" id="agente-task" placeholder="Descreva a tarefa do subagente..." required></textarea>
                 </div>
-                <div class="form-group">
-                    <label class="form-label">Descrição</label>
-                    <textarea class="form-textarea" id="agente-descricao" placeholder="Descreva as responsabilidades do agente..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label class="form-label">Instruções de Sistema</label>
-                    <textarea class="form-textarea" id="agente-instrucoes" placeholder="Defina o comportamento e especialidade do agente..."></textarea>
-                </div>
-                <button type="submit" class="btn">Criar Agente</button>
+                <button type="submit" class="btn" id="btn-criar-agente">
+                    Criar Agente
+                </button>
             </form>
         </div>
     </div>
 
     <script>
-        // Dados simulados (em produção, viriam da API)
-        let dados = {
-            workflows: [
-                {
-                    id: "wf-001",
-                    nome: "Deploy v2.5.0",
-                    descricao: "Pipeline de deploy da versão 2.5.0",
-                    estado: "em_andamento",
-                    progresso: 65,
-                    etapas: [
-                        { nome: "Revisão de Código", estado: "concluido" },
-                        { nome: "Testes Unitários", estado: "concluido" },
-                        { nome: "Testes de Integração", estado: "em_andamento" },
-                        { nome: "Deploy", estado: "pendente" }
-                    ],
-                    duracao: "12m 34s"
-                },
-                {
-                    id: "wf-002",
-                    nome: "Análise de Segurança",
-                    descricao: "Análise de vulnerabilidades",
-                    estado: "concluido",
-                    progresso: 100,
-                    etapas: [
-                        { nome: "Scan de Vulnerabilidades", estado: "concluido" },
-                        { nome: "Relatório", estado: "concluido" }
-                    ],
-                    duracao: "5m 12s"
-                }
-            ],
-            agentes: [
-                {
-                    id: "ag-001",
-                    nome: "Revisor",
-                    tipo: "revisor",
-                    descricao: "Especialista em revisão de código e boas práticas",
-                    ferramentas: ["read", "web_search", "web_fetch"],
-                    ativo: true
-                },
-                {
-                    id: "ag-002",
-                    nome: "Testador",
-                    tipo: "testador",
-                    descricao: "Especialista em testes automatizados e QA",
-                    ferramentas: ["read", "exec", "write"],
-                    ativo: true
-                },
-                {
-                    id: "ag-003",
-                    nome: "Deployer",
-                    tipo: "deployer",
-                    descricao: "Especialista em CI/CD e deploy de aplicações",
-                    ferramentas: ["exec", "read", "web_fetch"],
-                    ativo: true
-                }
-            ],
-            equipes: [
-                { nome: "Equipe DevOps", agentes: 3, ativa: true },
-                { nome: "Equipe QA", agentes: 2, ativa: true }
-            ],
-            logs: [
-                { time: "14:32:15", level: "info", message: "Workflow 'Deploy v2.5.0' iniciado" },
-                { time: "14:32:18", level: "success", message: "Etapa 'Revisão de Código' concluída" },
-                { time: "14:35:42", level: "success", message: "Etapa 'Testes Unitários' concluída" },
-                { time: "14:38:10", level: "info", message: "Etapa 'Testes de Integração' iniciada" }
-            ]
-        };
-
-        // Funções de navegação
+        // ==========================================
+        // CONFIGURAÇÃO DA API
+        // ==========================================
+        const API_BASE_URL = 'http://localhost:8000';
+        const POLLING_INTERVAL = 3000; // 3 segundos
+        
+        // Estado global
+        let apiConectada = false;
+        let workflows = [];
+        let subagentes = [];
+        let pollingTimer = null;
+        
+        // ==========================================
+        // FUNÇÕES DE API
+        // ==========================================
+        
+        async function apiGet(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro GET ${endpoint}:`, error);
+                throw error;
+            }
+        }
+        
+        async function apiPost(endpoint, data) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro POST ${endpoint}:`, error);
+                throw error;
+            }
+        }
+        
+        async function apiDelete(endpoint) {
+            try {
+                const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+                    method: 'DELETE'
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                return await response.json();
+            } catch (error) {
+                console.error(`Erro DELETE ${endpoint}:`, error);
+                throw error;
+            }
+        }
+        
+        // ==========================================
+        // ATUALIZAÇÃO DE DADOS
+        // ==========================================
+        
+        async function verificarConexao() {
+            try {
+                const status = await apiGet('/api/status');
+                apiConectada = status.openclaw_connected;
+                atualizarStatusConexao(apiConectada);
+                document.getElementById('alert-conexao').style.display = 'none';
+                return true;
+            } catch (error) {
+                apiConectada = false;
+                atualizarStatusConexao(false);
+                document.getElementById('alert-conexao').style.display = 'block';
+                return false;
+            }
+        }
+        
+        function atualizarStatusConexao(conectado) {
+            const badge = document.getElementById('connection-status');
+            if (conectado) {
+                badge.className = 'status-badge online';
+                badge.innerHTML = '<span class="status-dot"></span><span>Online</span>';
+            } else {
+                badge.className = 'status-badge offline';
+                badge.innerHTML = '<span class="status-dot"></span><span>Offline</span>';
+            }
+        }
+        
+        async function atualizarStats() {
+            try {
+                const stats = await apiGet('/api/stats');
+                document.getElementById('stat-workflows-ativos').textContent = stats.workflows_running || 0;
+                document.getElementById('stat-concluidos').textContent = stats.workflows_completed || 0;
+                document.getElementById('stat-agentes').textContent = stats.subagents_active || 0;
+                document.getElementById('stat-falhas').textContent = stats.workflows_failed || 0;
+            } catch (error) {
+                console.error('Erro ao atualizar stats:', error);
+            }
+        }
+        
+        async function atualizarWorkflows() {
+            try {
+                workflows = await apiGet('/api/workflows');
+                renderizarWorkflows();
+            } catch (error) {
+                console.error('Erro ao atualizar workflows:', error);
+            }
+        }
+        
+        async function atualizarSubagentes() {
+            try {
+                subagentes = await apiGet('/api/subagents');
+                renderizarSubagentes();
+            } catch (error) {
+                console.error('Erro ao atualizar subagentes:', error);
+            }
+        }
+        
+        async function atualizarLogs() {
+            try {
+                const logs = await apiGet('/api/logs?limit=50');
+                renderizarLogs(logs);
+            } catch (error) {
+                console.error('Erro ao atualizar logs:', error);
+            }
+        }
+        
+        async function atualizarTudo() {
+            await verificarConexao();
+            await Promise.all([
+                atualizarStats(),
+                atualizarWorkflows(),
+                atualizarSubagentes(),
+                atualizarLogs()
+            ]);
+        }
+        
+        // ==========================================
+        // RENDERIZAÇÃO
+        // ==========================================
+        
+        function renderizarWorkflows() {
+            const tbody = document.getElementById('tabela-workflows');
+            
+            if (!workflows || workflows.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            Nenhum workflow encontrado
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = workflows.slice(0, 5).map(wf => `
+                <tr>
+                    <td>
+                        <strong>${wf.name}</strong>
+                        <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">${wf.description || 'Sem descrição'}</div>
+                    </td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${wf.progress || 0}%"></div>
+                        </div>
+                        <div style="font-size: 0.75rem; margin-top: 0.25rem;">${wf.progress || 0}%</div>
+                    </td>
+                    <td><span class="badge ${wf.status}">${formatarEstado(wf.status)}</span></td>
+                    <td>${wf.duration || '0m 0s'}</td>
+                    <td>
+                        ${wf.status === 'em_andamento' ? `
+                            <button class="btn btn-erro btn-sm" onclick="cancelarWorkflow('${wf.id}')">Cancelar</button>
+                        ` : `
+                            <button class="btn btn-secundario btn-sm" onclick="iniciarWorkflow('${wf.id}')">Iniciar</button>
+                        `}
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Renderiza lista completa na aba workflows
+            const listaContainer = document.getElementById('lista-todos-workflows');
+            if (listaContainer) {
+                listaContainer.innerHTML = workflows.map(wf => `
+                    <div class="section" style="margin-bottom: 0.5rem;">
+                        <div class="section-header">
+                            <div>
+                                <strong>${wf.name}</strong>
+                                <span class="badge ${wf.status}" style="margin-left: 0.5rem;">${formatarEstado(wf.status)}</span>
+                            </div>
+                            <div>
+                                ${wf.status === 'pendente' ? `
+                                    <button class="btn btn-sm" onclick="iniciarWorkflow('${wf.id}')">▶️ Iniciar</button>
+                                ` : wf.status === 'em_andamento' ? `
+                                    <button class="btn btn-erro btn-sm" onclick="cancelarWorkflow('${wf.id}')">⏹️ Cancelar</button>
+                                ` : ''}
+                            </div>
+                        </div>
+                        <div style="font-size: 0.875rem; color: var(--cor-texto-secundario);">
+                            ${wf.description || 'Sem descrição'}
+                        </div>
+                        <div style="margin-top: 0.5rem;">
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: ${wf.progress || 0}%"></div>
+                            </div>
+                        </div>
+                        <div style="font-size: 0.75rem; margin-top: 0.5rem; display: flex; justify-content: space-between;">
+                            <span>${wf.steps ? wf.steps.length : 0} etapas</span>
+                            <span>${wf.duration || '0m 0s'}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+            
+            // Timeline
+            const timeline = document.getElementById('timeline-atividade');
+            if (timeline && workflows.length > 0) {
+                const recentWorkflows = workflows.slice(0, 3);
+                timeline.innerHTML = recentWorkflows.flatMap(wf => 
+                    (wf.steps || []).map((etapa, idx) => `
+                        <div class="timeline-item ${etapa.status}">
+                            <strong>${etapa.name}</strong>
+                            <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">
+                                ${wf.name} • ${formatarEstado(etapa.status)}
+                            </div>
+                        </div>
+                    `)
+                ).join('');
+            }
+        }
+        
+        function renderizarSubagentes() {
+            const grid = document.getElementById('grid-agentes');
+            
+            if (!subagentes || subagentes.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-state-icon">🤖</div>
+                        Nenhum subagente ativo
+                    </div>
+                `;
+                return;
+            }
+            
+            grid.innerHTML = subagentes.map(ag => `
+                <div class="agente-card">
+                    <div class="agente-header">
+                        <div class="agente-avatar">🤖</div>
+                        <div>
+                            <div class="agente-nome">${ag.label || 'Subagente'}</div>
+                            <div class="agente-tipo">${ag.id}</div>
+                        </div>
+                    </div>
+                    <div class="agente-desc">${ag.task || 'Sem tarefa definida'}</div>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="badge ${ag.status === 'running' ? 'em_andamento' : ag.status}">
+                            ${formatarEstado(ag.status)}
+                        </span>
+                    </div>
+                    <div class="agente-acoes">
+                        <button class="btn btn-erro btn-sm" onclick="pararSubagente('${ag.id}')">Parar</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderizarLogs(logs) {
+            const container = document.getElementById('logs-container');
+            
+            if (!logs || logs.length === 0) {
+                container.innerHTML = '<div class="empty-state">Nenhum log encontrado</div>';
+                return;
+            }
+            
+            container.innerHTML = logs.map(log => `
+                <div class="log-entry">
+                    <span class="log-time">${log.time || '--:--:--'}</span>
+                    <span class="log-level ${log.level}">${(log.level || 'INFO').toUpperCase()}</span>
+                    <span>${log.message}</span>
+                </div>
+            `).join('');
+            
+            // Auto-scroll para o final
+            container.scrollTop = container.scrollHeight;
+        }
+        
+        function formatarEstado(estado) {
+            const map = {
+                'pendente': 'Pendente',
+                'em_andamento': 'Em Andamento',
+                'concluido': 'Concluído',
+                'falhou': 'Falhou',
+                'cancelado': 'Cancelado',
+                'running': 'Executando',
+                'spawning': 'Iniciando',
+                'simulated': 'Simulado'
+            };
+            return map[estado] || estado;
+        }
+        
+        // ==========================================
+        // AÇÕES
+        // ==========================================
+        
+        async function criarWorkflow(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('btn-criar-workflow');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Criando...';
+            
+            try {
+                const data = {
+                    name: document.getElementById('wf-nome').value,
+                    description: document.getElementById('wf-descricao').value,
+                    template: document.getElementById('wf-template').value || null,
+                    auto_start: document.getElementById('wf-autostart').checked
+                };
+                
+                const result = await apiPost('/api/workflows', data);
+                
+                fecharModal('modal-workflow');
+                document.getElementById('form-workflow').reset();
+                
+                mostrarNotificacao('✅ Workflow criado com sucesso!');
+                await atualizarWorkflows();
+                await atualizarStats();
+            } catch (error) {
+                alert('Erro ao criar workflow: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Criar Workflow';
+            }
+        }
+        
+        async function iniciarWorkflow(id) {
+            try {
+                await apiPost(`/api/workflows/${id}/start`, {});
+                mostrarNotificacao('🚀 Workflow iniciado!');
+                await atualizarWorkflows();
+            } catch (error) {
+                alert('Erro ao iniciar workflow: ' + error.message);
+            }
+        }
+        
+        async function cancelarWorkflow(id) {
+            if (!confirm('Tem certeza que deseja cancelar este workflow?')) return;
+            
+            try {
+                await apiPost(`/api/workflows/${id}/cancel`, {});
+                mostrarNotificacao('⏹️ Workflow cancelado');
+                await atualizarWorkflows();
+            } catch (error) {
+                alert('Erro ao cancelar workflow: ' + error.message);
+            }
+        }
+        
+        async function criarSubagente(event) {
+            event.preventDefault();
+            
+            const btn = document.getElementById('btn-criar-agente');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span> Criando...';
+            
+            try {
+                const data = {
+                    task: document.getElementById('agente-task').value,
+                    label: document.getElementById('agente-label').value || null
+                };
+                
+                const result = await apiPost('/api/subagents', data);
+                
+                fecharModal('modal-agente');
+                document.getElementById('form-agente').reset();
+                
+                mostrarNotificacao('🤖 Subagente criado!');
+                await atualizarSubagentes();
+                await atualizarStats();
+            } catch (error) {
+                alert('Erro ao criar subagente: ' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = 'Criar Agente';
+            }
+        }
+        
+        async function pararSubagente(id) {
+            if (!confirm('Tem certeza que deseja parar este subagente?')) return;
+            
+            try {
+                await apiDelete(`/api/subagents/${id}`);
+                mostrarNotificacao('⏹️ Subagente parado');
+                await atualizarSubagentes();
+                await atualizarStats();
+            } catch (error) {
+                alert('Erro ao parar subagente: ' + error.message);
+            }
+        }
+        
+        // ==========================================
+        // UI HELPERS
+        // ==========================================
+        
         function toggleMenu() {
             const nav = document.getElementById('nav-menu');
             nav.classList.toggle('ativo');
         }
         
         function mostrarSecao(secaoId) {
-            // Esconde todas as seções
             document.querySelectorAll('.secao').forEach(s => s.style.display = 'none');
-            
-            // Mostra a seção selecionada
             const secao = document.getElementById('secao-' + secaoId);
             if (secao) {
                 secao.style.display = 'block';
             }
             
-            // Atualiza botões desktop
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
             if (event && event.target) {
                 event.target.classList.add('ativo');
             }
             
-            // Atualiza navegação inferior
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.classList.remove('ativo');
                 if (item.getAttribute('onclick').includes(secaoId)) {
@@ -1051,210 +1358,66 @@
                 }
             });
             
-            // Fecha menu mobile se estiver aberto
             const nav = document.getElementById('nav-menu');
             nav.classList.remove('ativo');
-            
-            // Renderiza conteúdo específico
-            if (secaoId === 'agentes') renderizarAgentes();
-            if (secaoId === 'equipes') renderizarEquipes();
-            if (secaoId === 'logs') renderizarLogs();
         }
         
         function mostrarSecaoInferior(secaoId, element) {
             mostrarSecao(secaoId);
         }
-
+        
         function mostrarTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('ativo'));
-            document.getElementById('tab-' + tabId).classList.add('ativo');
+            const tab = document.getElementById('tab-' + tabId);
+            if (tab) tab.classList.add('ativo');
             
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
-            event.target.classList.add('ativo');
+            if (event && event.target) {
+                event.target.classList.add('ativo');
+            }
         }
-
-        // Renderização
-        function renderizarDashboard() {
-            const ativos = dados.workflows.filter(w => w.estado === 'em_andamento').length;
-            const concluidos = dados.workflows.filter(w => w.estado === 'concluido').length;
-            const agentes = dados.agentes.filter(a => a.ativo).length;
-            const falhas = dados.workflows.filter(w => w.estado === 'falhou').length;
-            
-            document.getElementById('stat-workflows-ativos').textContent = ativos;
-            document.getElementById('stat-concluidos').textContent = concluidos;
-            document.getElementById('stat-agentes').textContent = agentes;
-            document.getElementById('stat-falhas').textContent = falhas;
-            
-            // Tabela de workflows
-            const tbody = document.getElementById('tabela-workflows');
-            tbody.innerHTML = dados.workflows.map(wf => `
-                <tr>
-                    <td>
-                        <strong>${wf.nome}</strong>
-                        <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">${wf.descricao}</div>
-                    </td>
-                    <td>
-                        <div class="progress-container">
-                            <div class="progress-bar" style="width: ${wf.progresso}%"></div>
-                        </div>
-                        <div style="font-size: 0.75rem; margin-top: 0.25rem;">${wf.progresso}%</div>
-                    </td>
-                    <td><span class="badge ${wf.estado}">${formatarEstado(wf.estado)}</span></td>
-                    <td>${wf.duracao}</td>
-                    <td>
-                        <button class="btn btn-secundario" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Ver</button>
-                    </td>
-                </tr>
-            `).join('');
-            
-            // Timeline
-            const timeline = document.getElementById('timeline-atividade');
-            timeline.innerHTML = dados.workflows.flatMap(wf => 
-                wf.etapas.map((etapa, idx) => `
-                    <div class="timeline-item ${etapa.estado}">
-                        <strong>${etapa.nome}</strong>
-                        <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">
-                            ${wf.nome} • ${formatarEstado(etapa.estado)}
-                        </div>
-                    </div>
-                `)
-            ).join('');
-        }
-
-        function renderizarAgentes() {
-            const grid = document.getElementById('grid-agentes');
-            grid.innerHTML = dados.agentes.map(ag => `
-                <div class="agente-card">
-                    <div class="agente-header">
-                        <div class="agente-avatar">${getIconeTipo(ag.tipo)}</div>
-                        <div>
-                            <div class="agente-nome">${ag.nome}</div>
-                            <div class="agente-tipo">${formatarTipo(ag.tipo)}</div>
-                        </div>
-                    </div>
-                    <div class="agente-desc">${ag.descricao}</div>
-                    <div class="agente-ferramentas">
-                        ${ag.ferramentas.map(f => `<span class="ferramenta-tag">${f}</span>`).join('')}
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function renderizarEquipes() {
-            const lista = document.getElementById('lista-equipes');
-            lista.innerHTML = dados.equipes.map(eq => `
-                <div class="section" style="margin-bottom: 1rem;">
-                    <div class="section-header">
-                        <h3>${eq.nome}</h3>
-                        <span class="badge ${eq.ativa ? 'concluido' : 'cancelado'}">
-                            ${eq.ativa ? 'Ativa' : 'Inativa'}
-                        </span>
-                    </div>
-                    <p>${eq.agentes} agentes</p>
-                </div>
-            `).join('');
-        }
-
-        function renderizarLogs() {
-            const container = document.getElementById('logs-container');
-            container.innerHTML = dados.logs.map(log => `
-                <div class="log-entry">
-                    <span class="log-time">${log.time}</span>
-                    <span class="log-level ${log.level}">${log.level.toUpperCase()}</span>
-                    <span>${log.message}</span>
-                </div>
-            `).join('');
-        }
-
-        // Helpers
-        function formatarEstado(estado) {
-            const map = {
-                'pendente': 'Pendente',
-                'em_andamento': 'Em Andamento',
-                'concluido': 'Concluído',
-                'falhou': 'Falhou',
-                'cancelado': 'Cancelado'
-            };
-            return map[estado] || estado;
-        }
-
-        function formatarTipo(tipo) {
-            const map = {
-                'revisor': 'Revisor',
-                'testador': 'Testador',
-                'desenvolvedor': 'Desenvolvedor',
-                'deployer': 'Deployer',
-                'analista': 'Analista',
-                'gerente': 'Gerente',
-                'especialista': 'Especialista',
-                'assistente': 'Assistente'
-            };
-            return map[tipo] || tipo;
-        }
-
-        function getIconeTipo(tipo) {
-            const map = {
-                'revisor': '👁️',
-                'testador': '🧪',
-                'desenvolvedor': '💻',
-                'deployer': '🚀',
-                'analista': '📊',
-                'gerente': '👔',
-                'especialista': '🎯',
-                'assistente': '🤝'
-            };
-            return map[tipo] || '🤖';
-        }
-
-        // Modais
+        
         function abrirModalWorkflow() {
             document.getElementById('modal-workflow').classList.add('ativo');
         }
-
+        
         function abrirModalAgente() {
             document.getElementById('modal-agente').classList.add('ativo');
         }
-
-        function abrirModalEquipe() {
-            alert('Funcionalidade em desenvolvimento!');
-        }
-
+        
         function fecharModal(modalId) {
             document.getElementById(modalId).classList.remove('ativo');
         }
-
-        // Formulários
-        document.getElementById('form-workflow')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nome = document.getElementById('wf-nome').value;
-            alert(`Workflow "${nome}" criado com sucesso!`);
-            fecharModal('modal-workflow');
-            this.reset();
-        });
-
-        document.getElementById('form-agente')?.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const nome = document.getElementById('agente-nome').value;
-            alert(`Agente "${nome}" criado com sucesso!`);
-            fecharModal('modal-agente');
-            this.reset();
-        });
-
+        
         function limparLogs() {
-            dados.logs = [];
-            renderizarLogs();
+            document.getElementById('logs-container').innerHTML = '<div class="empty-state">Logs limpos</div>';
         }
-
-        // Inicialização
+        
+        function mostrarNotificacao(mensagem) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('🚀 Mission Control', {
+                    body: mensagem,
+                    icon: 'icon-192x192.png'
+                });
+            }
+        }
+        
+        // ==========================================
+        // INICIALIZAÇÃO
+        // ==========================================
+        
         document.addEventListener('DOMContentLoaded', function() {
-            renderizarDashboard();
+            // Inicializa dados
+            atualizarTudo();
             
-            // Atualização automática a cada 5 segundos
-            setInterval(() => {
-                renderizarDashboard();
-            }, 5000);
+            // Inicia polling
+            pollingTimer = setInterval(atualizarTudo, POLLING_INTERVAL);
             
-            // Registrar Service Worker (PWA)
+            // Configura formulários
+            document.getElementById('form-workflow').addEventListener('submit', criarWorkflow);
+            document.getElementById('form-agente').addEventListener('submit', criarSubagente);
+            
+            // Registra Service Worker (PWA)
             if ('serviceWorker' in navigator) {
                 navigator.serviceWorker.register('sw.js')
                     .then((registration) => {
@@ -1265,32 +1428,27 @@
                     });
             }
             
-            // Solicitar permissão para notificações
+            // Solicita permissão para notificações
             if ('Notification' in window && Notification.permission === 'default') {
                 Notification.requestPermission();
             }
+            
+            // Fecha modais ao clicar fora
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('ativo');
+                    }
+                });
+            });
         });
         
-        // Função para enviar notificação
-        function enviarNotificacao(titulo, corpo) {
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('🐜 ' + titulo, {
-                    body: corpo,
-                    icon: 'icon-192x192.png',
-                    badge: 'icon-72x72.png'
-                });
+        // Limpa polling ao sair
+        window.addEventListener('beforeunload', function() {
+            if (pollingTimer) {
+                clearInterval(pollingTimer);
             }
-        }
-        
-        // Exemplo: notificar quando workflow concluir
-        function verificarConclusao() {
-            dados.workflows.forEach(wf => {
-                if (wf.estado === 'concluido' && !wf.notificado) {
-                    enviarNotificacao('Workflow Concluído', `${wf.nome} foi finalizado com sucesso!`);
-                    wf.notificado = true;
-                }
-            });
-        }
+        });
     </script>
 </body>
 </html>
