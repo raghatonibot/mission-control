@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#6366f1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Mission Control">
+    <meta name="description" content="Mission Control - Dashboard de Orquestracao de Agentes">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192x192.png">
+    <title>🚀 Mission Control</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --cor-primaria: #6366f1;
+            --cor-secundaria: #8b5cf6;
+            --cor-sucesso: #22c55e;
+            --cor-alerta: #f59e0b;
+            --cor-erro: #ef4444;
+            --cor-info: #3b82f6;
+            --cor-fundo: #0f172a;
+            --cor-fundo-card: #1e293b;
+            --cor-texto: #f1f5f9;
+            --cor-texto-secundario: #94a3b8;
+            --cor-borda: #334155;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--cor-fundo);
+            color: var(--cor-texto);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo-icon {
+            font-size: 2rem;
+        }
+        
+        .nav {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-btn:hover, .nav-btn.ativo {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        /* Cards de Estatísticas */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--cor-fundo-card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            border: 1px solid var(--cor-borda);
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .stat-label {
+            color: var(--cor-texto-secundario);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .stat-valor {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
+        
+        .stat-card.sucesso { border-left: 4px solid var(--cor-sucesso); }
+        .stat-card.info { border-left: 4px solid var(--cor-info); }
+        .stat-card.alerta { border-left: 4px solid var(--cor-alerta); }
+        .stat-card.erro { border-left: 4px solid var(--cor-erro); }
+        
+        /* Seções */
+        .section {
+            background: var(--cor-fundo-card);
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--cor-borda);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .section-titulo {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        /* Botões */
+        .btn {
+            background: var(--cor-primaria);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--cor-secundaria);
+            transform: translateY(-1px);
+        }
+        
+        .btn-sucesso { background: var(--cor-sucesso); }
+        .btn-alerta { background: var(--cor-alerta); }
+        .btn-erro { background: var(--cor-erro); }
+        .btn-secundario { 
+            background: transparent; 
+            border: 1px solid var(--cor-borda);
+        }
+        
+        /* Tabelas */
+        .tabela {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .tabela th, .tabela td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        .tabela th {
+            color: var(--cor-texto-secundario);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+        
+        .tabela tr:hover {
+            background: rgba(255,255,255,0.02);
+        }
+        
+        /* Badges de Status */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .badge.pendente { background: rgba(245, 158, 11, 0.2); color: var(--cor-alerta); }
+        .badge.em-andamento { background: rgba(59, 130, 246, 0.2); color: var(--cor-info); }
+        .badge.concluido { background: rgba(34, 197, 94, 0.2); color: var(--cor-sucesso); }
+        .badge.falhou { background: rgba(239, 68, 68, 0.2); color: var(--cor-erro); }
+        .badge.cancelado { background: rgba(148, 163, 184, 0.2); color: var(--cor-texto-secundario); }
+        
+        /* Grid de Agentes */
+        .agentes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        
+        .agente-card {
+            background: var(--cor-fundo);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            border: 1px solid var(--cor-borda);
+            transition: all 0.2s;
+        }
+        
+        .agente-card:hover {
+            border-color: var(--cor-primaria);
+        }
+        
+        .agente-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .agente-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+        
+        .agente-nome {
+            font-weight: 600;
+        }
+        
+        .agente-tipo {
+            font-size: 0.75rem;
+            color: var(--cor-texto-secundario);
+        }
+        
+        .agente-desc {
+            font-size: 0.875rem;
+            color: var(--cor-texto-secundario);
+            margin-top: 0.5rem;
+        }
+        
+        .agente-ferramentas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.25rem;
+            margin-top: 0.75rem;
+        }
+        
+        .ferramenta-tag {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--cor-primaria);
+            padding: 0.125rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.625rem;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: var(--cor-fundo);
+            border-radius: 0.5rem;
+            height: 8px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cor-primaria), var(--cor-secundaria));
+            transition: width 0.3s ease;
+        }
+        
+        /* Workflow Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--cor-borda);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 1.5rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 0.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--cor-borda);
+            border: 2px solid var(--cor-fundo-card);
+        }
+        
+        .timeline-item.concluido::before { background: var(--cor-sucesso); }
+        .timeline-item.em-andamento::before { background: var(--cor-info); }
+        .timeline-item.falhou::before { background: var(--cor-erro); }
+        .timeline-item.pendente::before { background: var(--cor-alerta); }
+        
+        /* Logs */
+        .logs-container {
+            background: var(--cor-fundo);
+            border-radius: 0.5rem;
+            padding: 1rem;
+            max-height: 300px;
+            overflow-y: auto;
+            font-family: 'Consolas', monospace;
+            font-size: 0.875rem;
+        }
+        
+        .log-entry {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid var(--cor-borda);
+        }
+        
+        .log-time {
+            color: var(--cor-texto-secundario);
+        }
+        
+        .log-level {
+            font-weight: bold;
+            margin: 0 0.5rem;
+        }
+        
+        .log-level.info { color: var(--cor-info); }
+        .log-level.success { color: var(--cor-sucesso); }
+        .log-level.warning { color: var(--cor-alerta); }
+        .log-level.error { color: var(--cor-erro); }
+        
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-overlay.ativo {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--cor-fundo-card);
+            border-radius: 0.75rem;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-titulo {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .modal-fechar {
+            background: none;
+            border: none;
+            color: var(--cor-texto-secundario);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        /* Formulários */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            background: var(--cor-fundo);
+            border: 1px solid var(--cor-borda);
+            color: var(--cor-texto);
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+        
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--cor-primaria);
+        }
+        
+        /* Animações */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .pulso {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Responsivo */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid var(--cor-borda);
+            padding-bottom: 0.5rem;
+        }
+        
+        .tab {
+            background: none;
+            border: none;
+            color: var(--cor-texto-secundario);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+        
+        .tab:hover {
+            color: var(--cor-texto);
+            background: rgba(255,255,255,0.05);
+        }
+        
+        .tab.ativo {
+            color: var(--cor-texto);
+            background: var(--cor-primaria);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.ativo {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <span>Mission Control</span>
+            </div>
+            <nav class="nav">
+                <button class="nav-btn ativo" onclick="mostrarSecao('dashboard')">📊 Dashboard</button>
+                <button class="nav-btn" onclick="mostrarSecao('workflows')">🔄 Workflows</button>
+                <button class="nav-btn" onclick="mostrarSecao('agentes')">🤖 Agentes</button>
+                <button class="nav-btn" onclick="mostrarSecao('equipes')">👥 Equipes</button>
+                <button class="nav-btn" onclick="mostrarSecao('logs')">📝 Logs</button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Estatísticas -->
+        <div class="stats-grid">
+            <div class="stat-card info">
+                <div class="stat-label">Workflows Ativos</div>
+                <div class="stat-valor" id="stat-workflows-ativos">0</div>
+            </div>
+            <div class="stat-card sucesso">
+                <div class="stat-label">Concluídos Hoje</div>
+                <div class="stat-valor" id="stat-concluidos">0</div>
+            </div>
+            <div class="stat-card alerta">
+                <div class="stat-label">Agentes Online</div>
+                <div class="stat-valor" id="stat-agentes">0</div>
+            </div>
+            <div class="stat-card erro">
+                <div class="stat-label">Falhas</div>
+                <div class="stat-valor" id="stat-falhas">0</div>
+            </div>
+        </div>
+
+        <!-- Seção Dashboard -->
+        <div id="secao-dashboard" class="secao">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-titulo">🔄 Workflows em Execução</h2>
+                    <button class="btn" onclick="abrirModalWorkflow()">+ Novo Workflow</button>
+                </div>
+                <table class="tabela">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Progresso</th>
+                            <th>Status</th>
+                            <th>Duração</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-workflows">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-titulo">📈 Atividade Recente</h2>
+                </div>
+                <div class="timeline" id="timeline-atividade">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Workflows -->
+        <div id="secao-workflows" class="secao" style="display: none;">
+            <div class="tabs">
+                <button class="tab ativo" onclick="mostrarTab('todos-workflows')">Todos</button>
+                <button class="tab" onclick="mostrarTab('em-andamento')">Em Andamento</button>
+                <button class="tab" onclick="mostrarTab('concluidos')">Concluídos</button>
+                <button class="tab" onclick="mostrarTab('templates')">Templates</button>
+            </div>
+            
+            <div id="tab-todos-workflows" class="tab-content ativo">
+                <div class="section">
+                    <div class="section-header">
+                        <h2 class="section-titulo">Todos os Workflows</h2>
+                    </div>
+                    <div id="lista-todos-workflows">
+                        <!-- Preenchido via JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Agentes -->
+        <div id="secao-agentes" class="secao" style="display: none;">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-titulo">🤖 Agentes Disponíveis</h2>
+                    <button class="btn" onclick="abrirModalAgente()">+ Novo Agente</button>
+                </div>
+                <div class="agentes-grid" id="grid-agentes">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Equipes -->
+        <div id="secao-equipes" class="secao" style="display: none;">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-titulo">👥 Equipes</h2>
+                    <button class="btn" onclick="abrirModalEquipe()">+ Nova Equipe</button>
+                </div>
+                <div id="lista-equipes">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Seção Logs -->
+        <div id="secao-logs" class="secao" style="display: none;">
+            <div class="section">
+                <div class="section-header">
+                    <h2 class="section-titulo">📝 Logs do Sistema</h2>
+                    <button class="btn btn-secundario" onclick="limparLogs()">Limpar</button>
+                </div>
+                <div class="logs-container" id="logs-container">
+                    <!-- Preenchido via JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Workflow -->
+    <div class="modal-overlay" id="modal-workflow">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-titulo">🔄 Criar Novo Workflow</h3>
+                <button class="modal-fechar" onclick="fecharModal('modal-workflow')">&times;</button>
+            </div>
+            <form id="form-workflow">
+                <div class="form-group">
+                    <label class="form-label">Nome do Workflow</label>
+                    <input type="text" class="form-input" id="wf-nome" placeholder="Ex: Deploy da Aplicação" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-textarea" id="wf-descricao" placeholder="Descreva o objetivo do workflow..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Equipe Responsável</label>
+                    <select class="form-select" id="wf-equipe">
+                        <option value="">Selecione uma equipe...</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Template</label>
+                    <select class="form-select" id="wf-template" onchange="carregarTemplate()">
+                        <option value="">Workflow em branco</option>
+                        <option value="ci-cd">CI/CD - Revisão → Teste → Deploy</option>
+                        <option value="analise">Análise de Código</option>
+                        <option value="suporte">Triagem de Suporte</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Criar Workflow</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Novo Agente -->
+    <div class="modal-overlay" id="modal-agente">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-titulo">🤖 Criar Novo Agente</h3>
+                <button class="modal-fechar" onclick="fecharModal('modal-agente')">&times;</button>
+            </div>
+            <form id="form-agente">
+                <div class="form-group">
+                    <label class="form-label">Nome do Agente</label>
+                    <input type="text" class="form-input" id="agente-nome" placeholder="Ex: Revisor de Código" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <select class="form-select" id="agente-tipo">
+                        <option value="revisor">Revisor</option>
+                        <option value="testador">Testador</option>
+                        <option value="desenvolvedor">Desenvolvedor</option>
+                        <option value="deployer">Deployer</option>
+                        <option value="analista">Analista</option>
+                        <option value="gerente">Gerente</option>
+                        <option value="especialista">Especialista</option>
+                        <option value="assistente">Assistente</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descrição</label>
+                    <textarea class="form-textarea" id="agente-descricao" placeholder="Descreva as responsabilidades do agente..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Instruções de Sistema</label>
+                    <textarea class="form-textarea" id="agente-instrucoes" placeholder="Defina o comportamento e especialidade do agente..."></textarea>
+                </div>
+                <button type="submit" class="btn">Criar Agente</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Dados simulados (em produção, viriam da API)
+        let dados = {
+            workflows: [
+                {
+                    id: "wf-001",
+                    nome: "Deploy v2.5.0",
+                    descricao: "Pipeline de deploy da versão 2.5.0",
+                    estado: "em_andamento",
+                    progresso: 65,
+                    etapas: [
+                        { nome: "Revisão de Código", estado: "concluido" },
+                        { nome: "Testes Unitários", estado: "concluido" },
+                        { nome: "Testes de Integração", estado: "em_andamento" },
+                        { nome: "Deploy", estado: "pendente" }
+                    ],
+                    duracao: "12m 34s"
+                },
+                {
+                    id: "wf-002",
+                    nome: "Análise de Segurança",
+                    descricao: "Análise de vulnerabilidades",
+                    estado: "concluido",
+                    progresso: 100,
+                    etapas: [
+                        { nome: "Scan de Vulnerabilidades", estado: "concluido" },
+                        { nome: "Relatório", estado: "concluido" }
+                    ],
+                    duracao: "5m 12s"
+                }
+            ],
+            agentes: [
+                {
+                    id: "ag-001",
+                    nome: "Revisor",
+                    tipo: "revisor",
+                    descricao: "Especialista em revisão de código e boas práticas",
+                    ferramentas: ["read", "web_search", "web_fetch"],
+                    ativo: true
+                },
+                {
+                    id: "ag-002",
+                    nome: "Testador",
+                    tipo: "testador",
+                    descricao: "Especialista em testes automatizados e QA",
+                    ferramentas: ["read", "exec", "write"],
+                    ativo: true
+                },
+                {
+                    id: "ag-003",
+                    nome: "Deployer",
+                    tipo: "deployer",
+                    descricao: "Especialista em CI/CD e deploy de aplicações",
+                    ferramentas: ["exec", "read", "web_fetch"],
+                    ativo: true
+                }
+            ],
+            equipes: [
+                { nome: "Equipe DevOps", agentes: 3, ativa: true },
+                { nome: "Equipe QA", agentes: 2, ativa: true }
+            ],
+            logs: [
+                { time: "14:32:15", level: "info", message: "Workflow 'Deploy v2.5.0' iniciado" },
+                { time: "14:32:18", level: "success", message: "Etapa 'Revisão de Código' concluída" },
+                { time: "14:35:42", level: "success", message: "Etapa 'Testes Unitários' concluída" },
+                { time: "14:38:10", level: "info", message: "Etapa 'Testes de Integração' iniciada" }
+            ]
+        };
+
+        // Funções de navegação
+        function mostrarSecao(secaoId) {
+            document.querySelectorAll('.secao').forEach(s => s.style.display = 'none');
+            document.getElementById('secao-' + secaoId).style.display = 'block';
+            
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
+            event.target.classList.add('ativo');
+            
+            if (secaoId === 'agentes') renderizarAgentes();
+            if (secaoId === 'equipes') renderizarEquipes();
+            if (secaoId === 'logs') renderizarLogs();
+        }
+
+        function mostrarTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('ativo'));
+            document.getElementById('tab-' + tabId).classList.add('ativo');
+            
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('ativo'));
+            event.target.classList.add('ativo');
+        }
+
+        // Renderização
+        function renderizarDashboard() {
+            const ativos = dados.workflows.filter(w => w.estado === 'em_andamento').length;
+            const concluidos = dados.workflows.filter(w => w.estado === 'concluido').length;
+            const agentes = dados.agentes.filter(a => a.ativo).length;
+            const falhas = dados.workflows.filter(w => w.estado === 'falhou').length;
+            
+            document.getElementById('stat-workflows-ativos').textContent = ativos;
+            document.getElementById('stat-concluidos').textContent = concluidos;
+            document.getElementById('stat-agentes').textContent = agentes;
+            document.getElementById('stat-falhas').textContent = falhas;
+            
+            // Tabela de workflows
+            const tbody = document.getElementById('tabela-workflows');
+            tbody.innerHTML = dados.workflows.map(wf => `
+                <tr>
+                    <td>
+                        <strong>${wf.nome}</strong>
+                        <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">${wf.descricao}</div>
+                    </td>
+                    <td>
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: ${wf.progresso}%"></div>
+                        </div>
+                        <div style="font-size: 0.75rem; margin-top: 0.25rem;">${wf.progresso}%</div>
+                    </td>
+                    <td><span class="badge ${wf.estado}">${formatarEstado(wf.estado)}</span></td>
+                    <td>${wf.duracao}</td>
+                    <td>
+                        <button class="btn btn-secundario" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Ver</button>
+                    </td>
+                </tr>
+            `).join('');
+            
+            // Timeline
+            const timeline = document.getElementById('timeline-atividade');
+            timeline.innerHTML = dados.workflows.flatMap(wf => 
+                wf.etapas.map((etapa, idx) => `
+                    <div class="timeline-item ${etapa.estado}">
+                        <strong>${etapa.nome}</strong>
+                        <div style="font-size: 0.75rem; color: var(--cor-texto-secundario);">
+                            ${wf.nome} • ${formatarEstado(etapa.estado)}
+                        </div>
+                    </div>
+                `)
+            ).join('');
+        }
+
+        function renderizarAgentes() {
+            const grid = document.getElementById('grid-agentes');
+            grid.innerHTML = dados.agentes.map(ag => `
+                <div class="agente-card">
+                    <div class="agente-header">
+                        <div class="agente-avatar">${getIconeTipo(ag.tipo)}</div>
+                        <div>
+                            <div class="agente-nome">${ag.nome}</div>
+                            <div class="agente-tipo">${formatarTipo(ag.tipo)}</div>
+                        </div>
+                    </div>
+                    <div class="agente-desc">${ag.descricao}</div>
+                    <div class="agente-ferramentas">
+                        ${ag.ferramentas.map(f => `<span class="ferramenta-tag">${f}</span>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderizarEquipes() {
+            const lista = document.getElementById('lista-equipes');
+            lista.innerHTML = dados.equipes.map(eq => `
+                <div class="section" style="margin-bottom: 1rem;">
+                    <div class="section-header">
+                        <h3>${eq.nome}</h3>
+                        <span class="badge ${eq.ativa ? 'concluido' : 'cancelado'}">
+                            ${eq.ativa ? 'Ativa' : 'Inativa'}
+                        </span>
+                    </div>
+                    <p>${eq.agentes} agentes</p>
+                </div>
+            `).join('');
+        }
+
+        function renderizarLogs() {
+            const container = document.getElementById('logs-container');
+            container.innerHTML = dados.logs.map(log => `
+                <div class="log-entry">
+                    <span class="log-time">${log.time}</span>
+                    <span class="log-level ${log.level}">${log.level.toUpperCase()}</span>
+                    <span>${log.message}</span>
+                </div>
+            `).join('');
+        }
+
+        // Helpers
+        function formatarEstado(estado) {
+            const map = {
+                'pendente': 'Pendente',
+                'em_andamento': 'Em Andamento',
+                'concluido': 'Concluído',
+                'falhou': 'Falhou',
+                'cancelado': 'Cancelado'
+            };
+            return map[estado] || estado;
+        }
+
+        function formatarTipo(tipo) {
+            const map = {
+                'revisor': 'Revisor',
+                'testador': 'Testador',
+                'desenvolvedor': 'Desenvolvedor',
+                'deployer': 'Deployer',
+                'analista': 'Analista',
+                'gerente': 'Gerente',
+                'especialista': 'Especialista',
+                'assistente': 'Assistente'
+            };
+            return map[tipo] || tipo;
+        }
+
+        function getIconeTipo(tipo) {
+            const map = {
+                'revisor': '👁️',
+                'testador': '🧪',
+                'desenvolvedor': '💻',
+                'deployer': '🚀',
+                'analista': '📊',
+                'gerente': '👔',
+                'especialista': '🎯',
+                'assistente': '🤝'
+            };
+            return map[tipo] || '🤖';
+        }
+
+        // Modais
+        function abrirModalWorkflow() {
+            document.getElementById('modal-workflow').classList.add('ativo');
+        }
+
+        function abrirModalAgente() {
+            document.getElementById('modal-agente').classList.add('ativo');
+        }
+
+        function abrirModalEquipe() {
+            alert('Funcionalidade em desenvolvimento!');
+        }
+
+        function fecharModal(modalId) {
+            document.getElementById(modalId).classList.remove('ativo');
+        }
+
+        // Formulários
+        document.getElementById('form-workflow')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('wf-nome').value;
+            alert(`Workflow "${nome}" criado com sucesso!`);
+            fecharModal('modal-workflow');
+            this.reset();
+        });
+
+        document.getElementById('form-agente')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nome = document.getElementById('agente-nome').value;
+            alert(`Agente "${nome}" criado com sucesso!`);
+            fecharModal('modal-agente');
+            this.reset();
+        });
+
+        function limparLogs() {
+            dados.logs = [];
+            renderizarLogs();
+        }
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            renderizarDashboard();
+            
+            // Atualização automática a cada 5 segundos
+            setInterval(() => {
+                renderizarDashboard();
+            }, 5000);
+            
+            // Registrar Service Worker (PWA)
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('SW registrado:', registration);
+                    })
+                    .catch((error) => {
+                        console.log('SW falhou:', error);
+                    });
+            }
+            
+            // Solicitar permissão para notificações
+            if ('Notification' in window && Notification.permission === 'default') {
+                Notification.requestPermission();
+            }
+        });
+        
+        // Função para enviar notificação
+        function enviarNotificacao(titulo, corpo) {
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('🐜 ' + titulo, {
+                    body: corpo,
+                    icon: 'icon-192x192.png',
+                    badge: 'icon-72x72.png'
+                });
+            }
+        }
+        
+        // Exemplo: notificar quando workflow concluir
+        function verificarConclusao() {
+            dados.workflows.forEach(wf => {
+                if (wf.estado === 'concluido' && !wf.notificado) {
+                    enviarNotificacao('Workflow Concluído', `${wf.nome} foi finalizado com sucesso!`);
+                    wf.notificado = true;
+                }
+            });
+        }
+    </script>
+</body>
+</html>
