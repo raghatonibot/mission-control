@@ -16,6 +16,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
         
         :root {
@@ -30,21 +31,29 @@
             --cor-texto: #f1f5f9;
             --cor-texto-secundario: #94a3b8;
             --cor-borda: #334155;
+            --safe-area-top: env(safe-area-inset-top);
+            --safe-area-bottom: env(safe-area-inset-bottom);
         }
         
         body {
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--cor-fundo);
             color: var(--cor-texto);
-            line-height: 1.6;
+            line-height: 1.5;
             min-height: 100vh;
+            padding-bottom: calc(80px + var(--safe-area-bottom));
+            -webkit-font-smoothing: antialiased;
         }
         
-        /* Header */
+        /* Header Mobile */
         .header {
             background: linear-gradient(135deg, var(--cor-primaria), var(--cor-secundaria));
-            padding: 1rem 2rem;
+            padding: 1rem;
+            padding-top: calc(1rem + var(--safe-area-top));
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         
         .header-content {
@@ -58,46 +67,122 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            font-size: 1.5rem;
+            gap: 0.5rem;
+            font-size: 1.25rem;
             font-weight: bold;
         }
         
         .logo-icon {
-            font-size: 2rem;
+            font-size: 1.75rem;
+        }
+        
+        /* Menu Mobile */
+        .menu-btn {
+            display: flex;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 1.25rem;
         }
         
         .nav {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.98);
+            z-index: 1000;
+            flex-direction: column;
+            padding: 2rem;
+            padding-top: calc(2rem + var(--safe-area-top));
+        }
+        
+        .nav.ativo {
             display: flex;
-            gap: 1rem;
+        }
+        
+        .nav-fechar {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--cor-texto);
+            font-size: 2rem;
+            cursor: pointer;
+            padding: 0.5rem;
         }
         
         .nav-btn {
-            background: rgba(255,255,255,0.1);
+            background: rgba(99, 102, 241, 0.2);
             border: none;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
             cursor: pointer;
             transition: all 0.2s;
+            font-size: 1.1rem;
+            text-align: left;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
         
         .nav-btn:hover, .nav-btn.ativo {
-            background: rgba(255,255,255,0.2);
+            background: var(--cor-primaria);
         }
         
-        /* Container */
+        /* Container Mobile */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 2rem;
+            padding: 1rem;
+            padding-bottom: calc(100px + var(--safe-area-bottom));
         }
         
-        /* Cards de Estatísticas */
+        /* Cards de Estatísticas Mobile */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .stat-card {
+            background: var(--cor-fundo-card);
+            border-radius: 1rem;
+            padding: 1rem;
+            border: 1px solid var(--cor-borda);
+            transition: transform 0.2s;
+        }
+        
+        .stat-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .stat-label {
+            color: var(--cor-texto-secundario);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .stat-valor {
+            font-size: 1.75rem;
+            font-weight: bold;
+            margin-top: 0.25rem;
+        }
+        
+        .stat-card.sucesso { border-left: 3px solid var(--cor-sucesso); }
+        .stat-card.info { border-left: 3px solid var(--cor-info); }
+        .stat-card.alerta { border-left: 3px solid var(--cor-alerta); }
+        .stat-card.erro { border-left: 3px solid var(--cor-erro); }
             margin-bottom: 2rem;
         }
         
@@ -514,6 +599,128 @@
         .tab-content.ativo {
             display: block;
         }
+        /* Navegação Inferior Mobile */
+        .nav-inferior {
+            display: flex;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--cor-fundo-card);
+            border-top: 1px solid var(--cor-borda);
+            padding: 0.5rem;
+            padding-bottom: calc(0.5rem + var(--safe-area-bottom));
+            z-index: 1000;
+            justify-content: space-around;
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.5rem 1rem;
+            background: none;
+            border: none;
+            color: var(--cor-texto-secundario);
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .nav-item.ativo {
+            color: var(--cor-primaria);
+        }
+        
+        .nav-item-icon {
+            font-size: 1.25rem;
+        }
+        
+        /* Media Query Desktop */
+        @media (min-width: 768px) {
+            .menu-btn {
+                display: none;
+            }
+            
+            .nav {
+                display: flex !important;
+                position: static;
+                flex-direction: row;
+                background: transparent;
+                padding: 0;
+            }
+            
+            .nav-fechar {
+                display: none;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.875rem;
+                margin-bottom: 0;
+            }
+            
+            .nav-inferior {
+                display: none;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+            
+            .container {
+                padding: 2rem;
+                padding-bottom: 2rem;
+            }
+            
+            .header {
+                padding: 1rem 2rem;
+            }
+        }
+        
+        /* Ajustes Mobile Adicionais */
+        .section {
+            background: var(--cor-fundo-card);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--cor-borda);
+        }
+        
+        .section-titulo {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .btn {
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            min-height: 44px;
+            min-width: 44px;
+        }
+        
+        .tabela {
+            font-size: 0.875rem;
+        }
+        
+        .tabela th, .tabela td {
+            padding: 0.75rem 0.5rem;
+        }
+        
+        .agente-card {
+            padding: 1rem;
+        }
+        
+        .modal {
+            margin: 1rem;
+            max-height: 90vh;
+            border-radius: 1rem;
+        }
+        
+        .form-input, .form-select, .form-textarea {
+            padding: 0.875rem;
+            font-size: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -524,7 +731,9 @@
                 <span class="logo-icon">🚀</span>
                 <span>Mission Control</span>
             </div>
-            <nav class="nav">
+            <button class="menu-btn" onclick="toggleMenu()">☰</button>
+            <nav class="nav" id="nav-menu">
+                <button class="nav-fechar" onclick="toggleMenu()">×</button>
                 <button class="nav-btn ativo" onclick="mostrarSecao('dashboard')">📊 Dashboard</button>
                 <button class="nav-btn" onclick="mostrarSecao('workflows')">🔄 Workflows</button>
                 <button class="nav-btn" onclick="mostrarSecao('agentes')">🤖 Agentes</button>
@@ -647,6 +856,26 @@
                 </div>
             </div>
         </div>
+
+        <!-- Navegação Inferior Mobile -->
+        <nav class="nav-inferior">
+            <button class="nav-item ativo" onclick="mostrarSecaoInferior('dashboard', this)">
+                <span class="nav-item-icon">📊</span>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-item" onclick="mostrarSecaoInferior('workflows', this)">
+                <span class="nav-item-icon">🔄</span>
+                <span>Workflows</span>
+            </button>
+            <button class="nav-item" onclick="mostrarSecaoInferior('agentes', this)">
+                <span class="nav-item-icon">🤖</span>
+                <span>Agentes</span>
+            </button>
+            <button class="nav-item" onclick="mostrarSecaoInferior('logs', this)">
+                <span class="nav-item-icon">📝</span>
+                <span>Logs</span>
+            </button>
+        </nav>
     </div>
 
     <!-- Modal Novo Workflow -->
@@ -793,16 +1022,47 @@
         };
 
         // Funções de navegação
+        function toggleMenu() {
+            const nav = document.getElementById('nav-menu');
+            nav.classList.toggle('ativo');
+        }
+        
         function mostrarSecao(secaoId) {
+            // Esconde todas as seções
             document.querySelectorAll('.secao').forEach(s => s.style.display = 'none');
-            document.getElementById('secao-' + secaoId).style.display = 'block';
             
+            // Mostra a seção selecionada
+            const secao = document.getElementById('secao-' + secaoId);
+            if (secao) {
+                secao.style.display = 'block';
+            }
+            
+            // Atualiza botões desktop
             document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('ativo'));
-            event.target.classList.add('ativo');
+            if (event && event.target) {
+                event.target.classList.add('ativo');
+            }
             
+            // Atualiza navegação inferior
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('ativo');
+                if (item.getAttribute('onclick').includes(secaoId)) {
+                    item.classList.add('ativo');
+                }
+            });
+            
+            // Fecha menu mobile se estiver aberto
+            const nav = document.getElementById('nav-menu');
+            nav.classList.remove('ativo');
+            
+            // Renderiza conteúdo específico
             if (secaoId === 'agentes') renderizarAgentes();
             if (secaoId === 'equipes') renderizarEquipes();
             if (secaoId === 'logs') renderizarLogs();
+        }
+        
+        function mostrarSecaoInferior(secaoId, element) {
+            mostrarSecao(secaoId);
         }
 
         function mostrarTab(tabId) {
